@@ -2,6 +2,7 @@ package com.codeking.boot.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.codeking.boot.common.BaseContext;
 import com.codeking.boot.common.R;
 import com.codeking.boot.entity.Employee;
 import com.codeking.boot.service.EmployeeService;
@@ -69,12 +70,12 @@ public class EmployeeController {
         log.info("新增员工，员工信息：{}", employee.toString());
         //设置初始密码123456，需要进行md5加密处理
         employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
-        employee.setCreateTime(LocalDateTime.now());
+        /*employee.setCreateTime(LocalDateTime.now());
         employee.setUpdateTime(LocalDateTime.now());
         Employee emp = (Employee) request.getSession().getAttribute("employee");
         Long empId = emp.getId();
         employee.setCreateUser(empId);
-        employee.setUpdateUser(empId);
+        employee.setUpdateUser(empId);*/
         employeeService.save(employee);
         return R.success("保存成功！");
     }
@@ -98,10 +99,10 @@ public class EmployeeController {
     @PutMapping
     public R<String> update(HttpServletRequest request, @RequestBody Employee employee) {
         log.info("当前的信息：{}", employee);
-        Employee emp = (Employee) request.getSession().getAttribute("employee");
-        Long empId = emp.getId();
-        employee.setUpdateUser(empId);
-        employee.setUpdateTime(LocalDateTime.now());
+        //Employee emp = (Employee) request.getSession().getAttribute("employee");
+        //Long empId = emp.getId();
+        //employee.setUpdateUser(empId);
+        //employee.setUpdateTime(LocalDateTime.now());
         employeeService.updateById(employee);
         return R.success("更新成功！");
     }

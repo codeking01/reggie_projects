@@ -6,7 +6,9 @@ package com.codeking.boot.filter;
  */
 
 import com.alibaba.fastjson.JSON;
+import com.codeking.boot.common.BaseContext;
 import com.codeking.boot.common.R;
+import com.codeking.boot.entity.Employee;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.AntPathMatcher;
 
@@ -48,6 +50,10 @@ public class LoginCheckFilter implements Filter {
         //4、判断登录状态，如果已登录，则直接放行
         if(request.getSession().getAttribute("employee") != null){
             log.info("用户已登录，用户id为：{}",request.getSession().getAttribute("employee"));
+            // 存储id
+            Employee emp = (Employee) request.getSession().getAttribute("employee");
+            Long empId = emp.getId();
+            BaseContext.setCurrentId(empId);
             filterChain.doFilter(request,response);
             return;
         }

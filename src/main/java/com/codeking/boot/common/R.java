@@ -23,14 +23,14 @@ public class R<T> {
 
     // 泛型方法的使用
     public static <T> R<T> success(T object) {
-        R<T> r = new R<T>();
+        R<T> r = new R<>();
         r.data = object;
         r.code = 1;
         return r;
     }
 
     public static <T> R<T> error(String msg) {
-        R r = new R();
+        R<T> r = new R<>();
         r.msg = msg;
         r.code = 0;
         return r;
