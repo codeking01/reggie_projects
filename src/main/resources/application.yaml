@@ -17,3 +17,6 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: ASSIGN_ID
+
+reggie:
+  path: C:\ALL_Softwares\Develop_Tools\All_projects\Spring-Projects\springboot2\reggie_project\src\main\resources\static\images\
