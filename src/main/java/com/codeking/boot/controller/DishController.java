@@ -99,4 +99,23 @@ public class DishController {
         dishService.updateByIdWithFlavor(dishDto);
         return R.success("菜品内容修改成功！");
     }
+    /**
+     * 根据条件查询对应的菜品数据 做的是添加菜品的接口
+     *
+     * @param dish
+     * @return
+     */
+    @GetMapping("/list")
+    public R<List<Dish>> list(Dish dish) {
+        //构造查询条件
+        LambdaQueryWrapper<Dish> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(dish.getCategoryId() != null, Dish::getCategoryId, dish.getCategoryId());
+        //添加条件，查询状态为1（起售状态）的菜品
+        lambdaQueryWrapper.eq(Dish::getStatus, 1);
+        //添加排序条件
+        lambdaQueryWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
+        // 查询内容
+        List<Dish> list = dishService.list(lambdaQueryWrapper);
+        return R.success(list);
+    }
 }
