@@ -87,28 +87,47 @@ public class SetmealController {
     }
 
     @PostMapping("/status/{status}")
-    public R<String> updateStatus(@PathVariable Integer status,@RequestParam("ids") Long id) {
+    public R<String> updateStatus(@PathVariable Integer status, @RequestParam("ids") Long id) {
         log.info("id:{}", id);
         // 从数据库查出数据
         LambdaQueryWrapper<Setmeal> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(Setmeal::getId,id);
+        lambdaQueryWrapper.eq(Setmeal::getId, id);
         Setmeal setmeal = setmealService.getOne(lambdaQueryWrapper);
-        if (setmeal!=null){
+        if (setmeal != null) {
             setmeal.setStatus(status);
             setmealService.updateStatus(setmeal);
             return R.success("修改停售状态成功！");
         }
         return R.error("查询不到信息..");
     }
+
     /**
      * 删除套餐
+     *
      * @param ids
      * @return
      */
     @DeleteMapping
-    public R<String> delete(@RequestParam("ids") List<Long> ids){
-        log.info("ids:{}",ids);
+    public R<String> delete(@RequestParam("ids") List<Long> ids) {
+        log.info("ids:{}", ids);
         setmealService.removeWithDish(ids);
         return R.success("套餐数据删除成功");
     }
+
+    /**
+     * 根据条件查询套餐数据
+     *
+     * @param setmeal
+     * @return
+     */
+    @GetMapping("/list")
+    public R<List<Setmeal>> list(Setmeal setmeal) {
+        LambdaQueryWrapper<Setmeal> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(setmeal.getCategoryId() != null, Setmeal::getCategoryId, setmeal.getCategoryId());
+        lambdaQueryWrapper.eq(setmeal.getStatus() !=null,Setmeal::getStatus,setmeal.getStatus());
+        lambdaQueryWrapper.orderByDesc(Setmeal::getUpdateTime);
+        List<Setmeal> list = setmealService.list(lambdaQueryWrapper);
+        return R.success(list);
+    }
+
 }
