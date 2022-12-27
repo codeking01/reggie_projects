@@ -2,6 +2,7 @@ package com.codeking.boot.common;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +11,7 @@ import java.util.Map;
  * @create : 2022/12/20 20:49
  */
 @Data
-public class R<T> {
+public class R<T> implements Serializable {
     /**
      * A. 如果业务执行结果为成功, 构建R对象时, 只需要调用 success 方法;
      * 如果需要返回数据传递object 参数, 如果无需返回, 可以直接传递null。
